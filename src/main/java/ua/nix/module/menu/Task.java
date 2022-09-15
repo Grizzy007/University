@@ -27,9 +27,9 @@ public class Task implements Command {
         switch (choice) {
             case 1 -> GROUP_SERVICE.findByName(reader);
             case 2 -> GROUP_SERVICE.getCount();
-            case 3 -> System.out.println("S");
+            case 3 -> GROUP_SERVICE.getGroupAvgMark();
             case 4 -> TEACHER_SERVICE.findTeacher(reader);
-            case 5 -> System.out.println(MARK_SERVICE.getAll());
+            case 5 -> SUBJECT_SERVICE.getSubjects();
             case 6 -> STUDENT_SERVICE.getStudentsWithHigherAvgMark(reader);
             default -> System.out.println("Incorrect number!");
         }

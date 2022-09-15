@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GroupService implements AbstractService<Class> {
     private final GroupRepository repository;
@@ -55,4 +54,10 @@ public class GroupService implements AbstractService<Class> {
     public void getCount() {
         repository.getCount();
     }
+
+    public void getGroupAvgMark(){
+//        repository.getGroupsAvgMark().forEach(System.out::println);
+        repository.getAvgMarks();
+    }
+
 }

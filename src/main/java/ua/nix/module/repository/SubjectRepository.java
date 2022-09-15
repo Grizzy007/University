@@ -55,7 +55,7 @@ public class SubjectRepository implements AbstractRepository<Subject> {
         entityManager.getTransaction().begin();
         entityManager.createQuery("update Subject set name = :name, code = :code where id = :id")
                 .setParameter("name", object.getName())
-                .setParameter("code",object.getCode())
+                .setParameter("code", object.getCode())
                 .setParameter("id", object.getId())
                 .executeUpdate();
         entityManager.flush();
@@ -73,21 +73,33 @@ public class SubjectRepository implements AbstractRepository<Subject> {
         return subject;
     }
 
-//    public Subject getBestMarked(){
-//        entityManager.getTransaction().begin();
-//        Subject subject = entityManager.createQuery("from Subject group by marks order by avg(marks)", Subject.class)
-//                .getSingleResult();
-//        entityManager.flush();
-//        entityManager.getTransaction().commit();
-//        return subject;
-//    }
-//
-//    public Subject getWorstMarked(){
-//        entityManager.getTransaction().begin();
-//        Subject subject = entityManager.createQuery("from Subject group by marks order by avg(marks) desc", Subject.class)
-//                .getSingleResult();
-//        entityManager.flush();
-//        entityManager.getTransaction().commit();
-//        return subject;
-//    }
+    public void getBestMarked() {
+        entityManager.getTransaction().begin();
+        System.out.println("Subject with best marks - " + entityManager
+                .createNativeQuery("select s.name from subject s " +
+                        "join mark m on s.id = m.subject_id group by s.id order by avg(m.value) desc")
+                .setMaxResults(1)
+                .getSingleResult() + ", average mark = " + entityManager
+                .createNativeQuery("select avg(m.value) from subject s " +
+                        "join mark m on s.id = m.subject_id group by s.id order by avg(m.value) desc")
+                .setMaxResults(1)
+                .getSingleResult());
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+    }
+
+    public void getWorstMarked() {
+        entityManager.getTransaction().begin();
+        System.out.println("Subject with worst marks - " + entityManager
+                .createNativeQuery("select s.name from subject s " +
+                        "join mark m on s.id = m.subject_id group by s.id order by avg(m.value)")
+                .setMaxResults(1)
+                .getSingleResult() + ", average mark = " + entityManager
+                .createNativeQuery("select avg(m.value) from subject s " +
+                        "join mark m on s.id = m.subject_id group by s.id order by avg(m.value)")
+                .setMaxResults(1)
+                .getSingleResult());
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+    }
 }

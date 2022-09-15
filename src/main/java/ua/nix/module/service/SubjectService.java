@@ -1,8 +1,6 @@
 package ua.nix.module.service;
 
-import ua.nix.module.entity.Student;
 import ua.nix.module.entity.Subject;
-import ua.nix.module.repository.StudentRepository;
 import ua.nix.module.repository.SubjectRepository;
 
 import java.util.List;
@@ -34,9 +32,14 @@ public class SubjectService implements AbstractService<Subject> {
 
     @Override
     public Subject generate() {
-        Subject subject= new Subject();
+        Subject subject = new Subject();
         subject.setCode(RANDOM.nextInt(500));
-        subject.setName("Subject"+subject.getCode());
+        subject.setName("Subject" + subject.getCode());
         return subject;
+    }
+
+    public void getSubjects() {
+        repository.getBestMarked();
+        repository.getWorstMarked();
     }
 }

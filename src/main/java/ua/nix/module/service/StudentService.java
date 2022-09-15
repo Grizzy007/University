@@ -1,13 +1,14 @@
 package ua.nix.module.service;
 
+import ua.nix.module.entity.Mark;
 import ua.nix.module.entity.Student;
 import ua.nix.module.repository.StudentRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class StudentService implements AbstractService<Student> {
     private final StudentRepository repository;
@@ -36,10 +37,17 @@ public class StudentService implements AbstractService<Student> {
 
     @Override
     public Student generate() {
-        return new Student("Name"+RANDOM.nextInt(1000),
-                "Surname"+RANDOM.nextInt(1000),
-                RANDOM.nextInt(16,100),
+        Student student = new Student("Name" + RANDOM.nextInt(1000),
+                "Surname" + RANDOM.nextInt(1000),
+                RANDOM.nextInt(16, 100),
                 LocalDate.now().minusDays(RANDOM.nextInt(100)));
+        MarkService service = MarkService.getInstance();
+        List<Mark> marks = new ArrayList<>(5);
+        for (int i = 0; i < 5; i++) {
+            marks.add(service.generateToStudent(student));
+        }
+        student.setMarks(marks);
+        return student;
     }
 
     public void getStudentsWithHigherAvgMark(BufferedReader reader) throws IOException {

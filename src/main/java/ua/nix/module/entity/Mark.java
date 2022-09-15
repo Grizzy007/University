@@ -62,6 +62,6 @@ public class Mark {
     @Override
     public String toString() {
         return "Mark value=" + value +
-                ", subject=" + subject + '\n';
+                ", subject=" + subject;
     }
 }

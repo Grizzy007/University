@@ -2,8 +2,10 @@ package ua.nix.module.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Subject {
@@ -51,6 +53,6 @@ public class Subject {
     @Override
     public String toString() {
         return "Subject code=" + code +
-                ", name=" + name  + '\n';
+                ", name=" + name + '\n';
     }
 }

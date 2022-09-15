@@ -83,7 +83,6 @@ public class GroupRepository implements AbstractRepository<Class> {
     }
 
     public void getCount() {
-        Map<String, Integer> map = new HashMap<>();
         entityManager.getTransaction().begin();
         List count = entityManager
                 .createNativeQuery("select count(students_id) from class_student cs group by Class_id")
@@ -108,5 +107,22 @@ public class GroupRepository implements AbstractRepository<Class> {
                                 .reduce(Integer::sum).orElse(1) / student.getMarks().stream().count())
                         .reduce(Long::sum).orElse(1L) / group.getStudents().stream().count()).toList();
 
+    }
+
+    public void getAvgMarks() {
+        entityManager.getTransaction().begin();
+        List marks = entityManager.createNativeQuery("select avg(value) from class " +
+                "join class_student cs on class.id = cs.Class_id left join mark m on cs.students_id = m.student_id " +
+                "group by cs.Class_id").getResultList();
+        List names = entityManager.createNativeQuery("select c.name from class c " +
+                "join class_student cs on c.id = cs.Class_id left join mark m on cs.students_id = m.student_id " +
+                "group by cs.Class_id").getResultList();
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+        Iterator iter1 = marks.iterator();
+        Iterator iter2 = names.iterator();
+        while (iter1.hasNext() && iter2.hasNext()) {
+            System.out.println("Group - " + iter2.next() + ", average mark - " + iter1.next());
+        }
     }
 }

@@ -1,14 +1,10 @@
 package ua.nix.module.service;
 
-import ua.nix.module.entity.Student;
-import ua.nix.module.entity.Subject;
 import ua.nix.module.entity.Teacher;
-import ua.nix.module.repository.SubjectRepository;
 import ua.nix.module.repository.TeacherRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class TeacherService implements AbstractService<Teacher> {
